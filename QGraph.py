@@ -203,3 +203,4 @@ class QGraph:
         ax.set_aspect('equal')
         self.draw(ax=ax, **kwargs)
         f.savefig(filename, bbox_inches='tight')
+        

@@ -133,6 +133,7 @@ class QGraphList:
         Returns:
             QGraphList: new QGraphList object without the excluded QGraph objects
         """
+        
         return QGraphList([G for G in self.list if getattr(G, property) not in values])
 
     def lineplot(self, **kwargs):
