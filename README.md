@@ -1,10 +1,16 @@
-## Introduction
+# Introduction
 This package is for growing random graphs and trees by using continuous quantum walks.
 One or more quantum walkers explore a graph and at random times they collapse on its nodes, where a new node is attached. By alternatning evolution and collapse and by controlling the average exploration time, graphs and trees with various characteristics can be grown.
 
-## `QGraph` class
+# Usage
+For now this is not a package installable through `pip`. Just clone the repository to a folder, from which you can open a jupyter notebook and import it:
+```python
+from QuantumGraphs import QGraphList, QGraph
+```
 
-### initialization and basic usage
+# The QGraph class
+
+## initialization and basic usage
 The `QGraph` class represents a single graph, which is instantiated as a trivial graph with a single node.
 The required parameters are the number of quantum walkers and the average exploration time between collapses:
 ```python
@@ -17,7 +23,7 @@ G.add_nodes(nodes = 100)
 ```
 Now the graph `G` has 101 nodes (`G.nodes` returns 101).
 
-### visualizations
+## Visualizations
 We can visualize a graph via
 ```python
 G.draw(node_size=30)
@@ -29,12 +35,12 @@ and export the diagram (several extensions are supported):
 G.export('example_graph.jpg', node_size=30)
 ```
 
-## `QGraphList` class
+# The QGraphList class
 The `QGraphList` class is for managing a collection of `QGraph` objects, which are internally stored in a list.
 The `QGraphList` class contains a number of utilities and it's meant to work in a flexible way.
 The `repr` of a `QGraphList` object returns a handy Pandas DataFrame with a summary of its contents, which is particularly nice when working in a jupyter notebook environment.
 
-### initialization and basic usage
+## Initialization and basic usage
 ```python
 GL = QGraphList()
 ```
@@ -46,13 +52,14 @@ GL.grow_random_graphs(specs)
 We can populate the database at any time, any number of times. Each new graph is treated as a distinct object.
 We can observe some properties of the graphs by invoking `GL.dataframe`.
 
-### visualizations
+## Visualizations
 The properties of the graphs can be plotted via an internal use of Seaborn:
 ```python
 ax = GL.lineplot(x='exploration', y='diameter', hue='walkers', style='nodes')
 ax.set_xscale('log')
 ```
 ![img](/plots/diameter.jpg "Diameter plot")
+
 Notice that the `lineplot` method returns a matplotlib axis instance to allow for further customization and export:
 
 ```python
@@ -60,7 +67,7 @@ fig = ax.get_figure()
 fig.savefig("diameter.jpg")
 ```
 
-### utilities
+## Utilities
 `QGraphList` objects can be added to merge their internal (e.g. `G = G1 + G2`), and if possible their dataframes.
 
 We can also select and/or exclude parts of the collection:
@@ -85,7 +92,7 @@ G2 = QGraphList().grow_random_graphs([{'walkers':2, 'nodes':50, 'exploration':0.
 G = G1 + G2 
 ```
 
-### Saving and loading
+## Saving and loading
 As computations might become expensive, we can save and load a `QGraphList` object:
 ```python
 G.save('large_database.npy')
