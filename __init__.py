@@ -1,4 +1,4 @@
-from quantumgraphs.QGraph import QGraph
-from quantumgraphs.QGraphList import QGraphList
+from .QGraph import QGraph
+from .QGraphList import QGraphList
 
 __all__ = ['QGraph', 'QGraphList']

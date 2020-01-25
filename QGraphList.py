@@ -1,6 +1,5 @@
 from typing import List, Union
-# from quantumgraphs import QGraph
-from QGraph import QGraph
+from . import QGraph
 from p_tqdm import p_imap
 from IPython.display import display
 import pandas as pd

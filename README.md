@@ -20,13 +20,13 @@ Now the graph `G` has 101 nodes (`G.nodes` returns 101).
 ### visualizations
 We can visualize a graph via
 ```python
-G.draw()
+G.draw(node_size=30)
 ```
-![img](/plots/example_graph.pdf "Example graph")
+![img](/plots/example_graph.jpg "Example graph")
 
 and export the diagram (several extensions are supported):
 ```python
-G.export('my_graph.pdf')
+G.export('example_graph.jpg', node_size=30)
 ```
 
 ## `QGraphList` class
@@ -49,15 +49,15 @@ We can observe some properties of the graphs by invoking `GL.dataframe`.
 ### visualizations
 The properties of the graphs can be plotted via an internal use of Seaborn:
 ```python
-ax = G.lineplot(x='exploration', y='diameter', hue='walkers', style='nodes')
+ax = GL.lineplot(x='exploration', y='diameter', hue='walkers', style='nodes')
 ax.set_xscale('log')
 ```
-![img](/plots/diameter.pdf "Diameter plot")
+![img](/plots/diameter.jpg "Diameter plot")
 Notice that the `lineplot` method returns a matplotlib axis instance to allow for further customization and export:
 
 ```python
 fig = ax.get_figure()
-fig.savefig("output.pdf")
+fig.savefig("diameter.jpg")
 ```
 
 ### utilities
