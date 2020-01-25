@@ -195,8 +195,11 @@ class QGraph:
             filename (string): the desired filename, including extension (recommended: pdf)
             **kwargs: keyword arguments that we wish to pass to `nx.draw_kamada_kawai`
         """
-        f = plt.figure()
+        if 'figsize' not in kwargs:
+            kwargs['figsize']=(5,5)
+
+        f = plt.figure(figsize=kwargs['figsize'])
         ax = f.add_subplot(111)
         ax.set_aspect('equal')
         self.draw(ax=ax, **kwargs)
-        f.savefig(filename)
+        f.savefig(filename, bbox_inches='tight')

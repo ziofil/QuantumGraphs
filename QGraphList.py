@@ -1,11 +1,13 @@
 from typing import List, Union
-from quantumgraphs import QGraph
+# from quantumgraphs import QGraph
+from QGraph import QGraph
 from p_tqdm import p_imap
 from IPython.display import display
 import pandas as pd
 from collections import defaultdict
 import seaborn as sns
 import numpy as np
+import matplotlib.pyplot as plt
 
 class QGraphList:
     """

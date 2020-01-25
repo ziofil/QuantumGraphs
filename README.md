@@ -22,7 +22,7 @@ We can visualize a graph via
 ```python
 G.draw()
 ```
-![img](/plots/examplegraph.pdf "Example graph")
+![img](/plots/example_graph.pdf "Example graph")
 
 and export the diagram (several extensions are supported):
 ```python
@@ -49,11 +49,16 @@ We can observe some properties of the graphs by invoking `GL.dataframe`.
 ### visualizations
 The properties of the graphs can be plotted via an internal use of Seaborn:
 ```python
-ax = G.lineplot(x='exploration', y='diameter', hue='walkers')
+ax = G.lineplot(x='exploration', y='diameter', hue='walkers', style='nodes')
 ax.set_xscale('log')
 ```
 ![img](/plots/diameter.pdf "Diameter plot")
-Notice that the `lineplot` method returns a matplotlib axis instance to allow for further customizaion.
+Notice that the `lineplot` method returns a matplotlib axis instance to allow for further customization and export:
+
+```python
+fig = ax.get_figure()
+fig.savefig("output.pdf")
+```
 
 ### utilities
 `QGraphList` objects can be added to merge their internal (e.g. `G = G1 + G2`), and if possible their dataframes.
