@@ -1,4 +1,4 @@
-from typing import List, Union
+from typing import List
 from . import QGraph
 from p_tqdm import p_imap
 from IPython.display import display
@@ -105,7 +105,7 @@ class QGraphList:
         self.filename = filename
         self.list = np.load(filename, allow_pickle=True)
 
-    def select(self, property:str, values: Union[int, list]):
+    def select(self, property:str, values: list):
         """
         Returns a new QGraphList containing only the QGraph objects with `property`
         having value in `values`. By returning a new QGraphList instance, calls to 
@@ -113,15 +113,14 @@ class QGraphList:
 
         Arguments:
             property (str): the property to select, e.g. 'diameter'
-            values (int or list): the value(s) that we want to select
+            values (list): the value(s) that we want to select
 
         Returns:
             QGraphList: new QGraphList object with the selected QGraph objects
         """
-        values = list(values)
         return QGraphList([G for G in self.list if getattr(G, property) in values])
 
-    def exclude(self, property:str, values: Union[List, int]):
+    def exclude(self, property:str, values: list):
         """
         Returns a new QGraphList containing only the QGraph objects with `property`
         NOT having value in `values`. By returning a new QGraphList instance, calls to 
@@ -134,7 +133,6 @@ class QGraphList:
         Returns:
             QGraphList: new QGraphList object without the excluded QGraph objects
         """
-        values = list(values)
         return QGraphList([G for G in self.list if getattr(G, property) not in values])
 
     def lineplot(self, **kwargs):

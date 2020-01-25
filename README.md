@@ -47,7 +47,7 @@ GL = QGraphList()
 We populate it by growing random graphs according to the desired specs. This is automatically done in parallel, with a visual bar that indicates the status of the computation:
 ```python
 specs = [{'walkers':w, 'nodes':n, 'exploration':t} for t in [0.1,0.5,1.0] for w in [1,2,3] for n in [100,200]]
-GL.grow_random_graphs(specs)
+GL.grow_random_graphs(specs*3) # 3 copies of each spec
 ```
 We can populate the database at any time, any number of times. Each new graph is treated as a distinct object.
 We can observe some properties of the graphs by invoking `GL.dataframe`.
@@ -68,16 +68,16 @@ fig.savefig("diameter.jpg")
 ```
 
 ## Utilities
-`QGraphList` objects can be added to merge their internal (e.g. `G = G1 + G2`), and if possible their dataframes.
+`QGraphList` objects can be added to merge their internal list (e.g. `G = G1 + G2`), and if possible, their dataframes.
 
 We can also select and/or exclude parts of the collection:
 ```python
-G.select('walkers', 2).exclude('nodes', 200)
+GL.select('walkers', [1,2])
 ```
 
-as the `select` and `exclude` methods return new instances of `QGraphList`, we can chain them with any other class method:
+As the `select` and `exclude` methods return new instances of `QGraphList`, we can chain them with any other class method:
 ```python
-G.exclude('walkers', 1).select('nodes', 200).lineplot(x='exploration', y='clustering', hue='walkers')
+GL.exclude('walkers', [1]).select('nodes', [200]).lineplot(x='exploration', y='clustering', hue='walkers')
 ```
 
 `QGraphList` objects are iterable:
@@ -87,17 +87,19 @@ G.exclude('walkers', 1).select('nodes', 200).lineplot(x='exploration', y='cluste
 
 `QGraphList` objects can be merged simply by summing them:
 ```python
-G1 = QGraphList().grow_random_graphs([{'walkers':1, 'nodes':50, 'exploration':0.1}]*5)
-G2 = QGraphList().grow_random_graphs([{'walkers':2, 'nodes':50, 'exploration':0.1}]*5)
-G = G1 + G2 
+G1 = QGraphList()
+G1.grow_random_graphs([{'walkers':1, 'nodes':50, 'exploration':0.1}]*5)
+G2 = QGraphList()
+G2.grow_random_graphs([{'walkers':2, 'nodes':50, 'exploration':0.1}]*5)
+GL = G1 + G2 
 ```
 
 ## Saving and loading
 As computations might become expensive, we can save and load a `QGraphList` object:
 ```python
-G.save('large_database.npy')
+GL.save('large_database.npy')
 
-G2 = QGraphList()
-G2.load('large_database.npy')
+GL = QGraphList()
+GL.load('large_database.npy')
 ```
 Once we save a `QGraphList` object, saving becomes automatic every time we add new `QGraph` objects to it.
