@@ -7,7 +7,6 @@ import pandas as pd
 from collections import defaultdict
 import seaborn as sns
 import numpy as np
-import matplotlib.pyplot as plt
 
 class QGraphList:
     """
