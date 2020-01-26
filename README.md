@@ -30,9 +30,9 @@ G.draw(node_size=30)
 ```
 ![img](/plots/example_graph.jpg "Example graph")
 
-and export the diagram (several extensions are supported):
+If we also wish to export the diagram, we can pass a `filename` argument:
 ```python
-G.export('example_graph.jpg', node_size=30)
+G.draw(node_size=30, filename = 'example_graph.jpg')
 ```
 
 # The QGraphList class
