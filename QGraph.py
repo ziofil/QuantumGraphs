@@ -48,31 +48,6 @@ class QGraph:
     def __repr__(self):
         return f'QGraph(walkers={self.walkers}, exploration={self.exploration}) with {self.nodes} nodes'
 
-    # def from_adjacency_matrix(self, Ag: np.ndarray):
-    #     """
-    #     Loads an adjency matrix in ndarray form and resets the wave functions.
-
-    #     Arguments:
-    #         Ag (numpy.ndarray): the adjacency matrix of the graph to be created
-    #     """
-    #     if not isinstance(Ag, np.ndarray):
-    #         raise TypeError('Expected type `numpy.ndarray`')
-
-    #     self.adjacency_matrix = Ag
-    #     self.wave_functions = np.zeros([self.walkers, self.nodes], dtype=np.complex64)
-    #     self.wave_functions[:,0] = 1 # all walkers on the first node
-
-    # def from_nx_graph(self, G: nx.classes.graph.Graph):
-    #     """
-    #     Loads a networkx graph and resets the wave functions.
-    #     """
-    #     if not isinstance(G, nx.classes.graph.Graph):
-    #         raise TypeError('Expected type `networkx.classes.graph.Graph`')
-
-    #     self.adjacency_matrix = nx.linalg.graphmatrix.adjacency_matrix(G)
-    #     self.wave_functions = np.zeros([self.walkers, self.nodes], dtype=np.complex64)
-    #     self.wave_functions[:,0] = 1 # all walkers on the first node
-
     @property
     def adjacency_matrix(self):
         if self.adjacency_matrix_ is None:
