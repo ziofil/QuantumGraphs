@@ -4,6 +4,7 @@ import scipy as sp
 from collections import defaultdict
 from numbers import Real
 import matplotlib.pyplot as plt
+from pathlib import Path
 
 
 class QGraph:
@@ -23,7 +24,12 @@ class QGraph:
         self.exploration = exploration
         self.walkers = walkers
         self.wave_functions = np.ones([self.walkers, 1], dtype=np.complex64)
-        self.adjacency_matrix = np.array([[1]])
+        self.adjacency_matrix_ = sp.sparse.coo_matrix(([1], ([0], [0])))
+        
+        # coo_matrix data for sparse adjacency matrix
+        self.data = [1]
+        self.row = [0]
+        self.col = [0]
 
         # lazy properties
         self.clustering_coefficient_ = None
@@ -42,34 +48,40 @@ class QGraph:
     def __repr__(self):
         return f'QGraph(walkers={self.walkers}, exploration={self.exploration}) with {self.nodes} nodes'
 
-    def from_adjacency_matrix(self, Ag: np.ndarray):
-        """
-        Loads an adjency matrix in ndarray form and resets the wave functions.
+    # def from_adjacency_matrix(self, Ag: np.ndarray):
+    #     """
+    #     Loads an adjency matrix in ndarray form and resets the wave functions.
 
-        Arguments:
-            Ag (numpy.ndarray): the adjacency matrix of the graph to be created
-        """
-        if not isinstance(Ag, np.ndarray):
-            raise TypeError('Expected type `numpy.ndarray`')
+    #     Arguments:
+    #         Ag (numpy.ndarray): the adjacency matrix of the graph to be created
+    #     """
+    #     if not isinstance(Ag, np.ndarray):
+    #         raise TypeError('Expected type `numpy.ndarray`')
 
-        self.adjacency_matrix = Ag
-        self.wave_functions = np.zeros([self.walkers, self.nodes], dtype=np.complex64)
-        self.wave_functions[:,0] = 1 # all walkers on the first node
+    #     self.adjacency_matrix = Ag
+    #     self.wave_functions = np.zeros([self.walkers, self.nodes], dtype=np.complex64)
+    #     self.wave_functions[:,0] = 1 # all walkers on the first node
 
-    def from_nx_graph(self, G: nx.classes.graph.Graph):
-        """
-        Loads a networkx graph and resets the wave functions.
-        """
-        if not isinstance(G, nx.classes.graph.Graph):
-            raise TypeError('Expected type `networkx.classes.graph.Graph`')
+    # def from_nx_graph(self, G: nx.classes.graph.Graph):
+    #     """
+    #     Loads a networkx graph and resets the wave functions.
+    #     """
+    #     if not isinstance(G, nx.classes.graph.Graph):
+    #         raise TypeError('Expected type `networkx.classes.graph.Graph`')
 
-        self.adjacency_matrix = nx.linalg.graphmatrix.adjacency_matrix(G)
-        self.wave_functions = np.zeros([self.walkers, self.nodes], dtype=np.complex64)
-        self.wave_functions[:,0] = 1 # all walkers on the first node
+    #     self.adjacency_matrix = nx.linalg.graphmatrix.adjacency_matrix(G)
+    #     self.wave_functions = np.zeros([self.walkers, self.nodes], dtype=np.complex64)
+    #     self.wave_functions[:,0] = 1 # all walkers on the first node
+
+    @property
+    def adjacency_matrix(self):
+        if self.adjacency_matrix_ is None:
+            self.adjacency_matrix_ = sp.sparse.coo_matrix((self.data, (self.row,self.col)))
+        return self.adjacency_matrix_
 
     @property
     def nodes(self):
-        return len(self.adjacency_matrix)
+        return self.adjacency_matrix.shape[0]
     
     @property
     def sample_position(self):
@@ -84,20 +96,14 @@ class QGraph:
         return np.random.exponential(self.exploration)
     
     @property
-    def sparse(self):
-        "Returns the sparse representation of the adjacency matrix"
-        return sp.sparse.coo_matrix(self.adjacency_matrix)
-    
-    @property
     def graph(self):
         "Returns the networkx object of the graph"
-        return nx.from_numpy_array(self.adjacency_matrix)
+        return nx.from_scipy_sparse_matrix(self.adjacency_matrix)
 
     @property
     def clustering_coefficient(self):
         if self.walkers == 1:
             return 0
-
         if not self.clustering_coefficient_:
             self.clustering_coefficient_ = nx.average_clustering(self.graph)
         return self.clustering_coefficient_
@@ -160,11 +166,11 @@ class QGraph:
             pos = self._collapse_walkers()
 
             self.wave_functions = np.pad(self.wave_functions, ((0,0),(0,1)))
-            self.adjacency_matrix = np.pad(self.adjacency_matrix, ((0,1),(0,1)))
 
-            for p in pos:
-                self.adjacency_matrix[-1,p] = 1
-                self.adjacency_matrix[p,-1] = 1
+            self.data += [1,1]*self.walkers
+            self.row += [self.nodes]*self.walkers + pos
+            self.col += pos + [self.nodes]*self.walkers
+            self.adjacency_matrix_ = None
         
         # reset lazy properties        
         self.diameter_ = None
@@ -172,7 +178,7 @@ class QGraph:
         self.leaf_fraction_ = None
         self.clustering_coefficient_ = None
 
-    def draw(self, figsize = (5,5), **kwargs):
+    def draw(self, figsize = (5,5), filename = None, **kwargs):
         """
         Draws the current graph using networkx and the Kamada-Kawai embedding.
 
@@ -186,21 +192,25 @@ class QGraph:
             ax.set_aspect('equal')
             kwargs['ax'] = ax
         nx.draw_kamada_kawai(self.graph, **kwargs)
+
+        if filename:
+            f.savefig(filename, bbox_inches='tight')
+            print(f'saved figure as {Path().absolute()}/'+filename)
         
-    def export(self, filename: str, **kwargs):
-        """
-        Exports the figure of the graph drawn with networkx.
+    # def export(self, filename: str, **kwargs):
+    #     """
+    #     Exports the figure of the graph drawn with networkx.
 
-        Arguments:
-            filename (string): the desired filename, including extension (recommended: pdf)
-            **kwargs: keyword arguments that we wish to pass to `nx.draw_kamada_kawai`
-        """
-        if 'figsize' not in kwargs:
-            kwargs['figsize']=(5,5)
+    #     Arguments:
+    #         filename (string): the desired filename, including extension (recommended: pdf)
+    #         **kwargs: keyword arguments that we wish to pass to `nx.draw_kamada_kawai`
+    #     """
+    #     if 'figsize' not in kwargs:
+    #         kwargs['figsize']=(5,5)
 
-        f = plt.figure(figsize=kwargs['figsize'])
-        ax = f.add_subplot(111)
-        ax.set_aspect('equal')
-        self.draw(ax=ax, **kwargs)
-        f.savefig(filename, bbox_inches='tight')
+    #     f = plt.figure(figsize=kwargs['figsize'])
+    #     ax = f.add_subplot(111)
+    #     ax.set_aspect('equal')
+    #     self.draw(ax=ax, **kwargs)
+    #     f.savefig(filename, bbox_inches='tight')
         
