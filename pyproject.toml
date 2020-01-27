@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "QuantumGraphs"
-version = "0.1.4"
+version = "0.1.5"
 description = "Grow random graphs using quantum random walks"
 authors = ["ziofil <miatto@gmail.com>"]
 
