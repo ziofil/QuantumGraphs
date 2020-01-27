@@ -1,6 +1,6 @@
-__version__ = '0.1.2'
+__version__ = '0.1.3'
 
-from . import QGraph
-from . import QGraphList
+from QGraph import QGraph
+from QGraphList import QGraphList
 
 __all__ = ['QGraph', 'QGraphList']

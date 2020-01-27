@@ -1,5 +1,5 @@
 from typing import List
-from . import QGraph
+from QGraph import QGraph
 from p_tqdm import p_imap
 from IPython.display import display
 import pandas as pd
