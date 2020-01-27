@@ -1,3 +1,6 @@
+v0.1.9
+[bugfix] Fixed load
+
 v0.1.8
 [bugfix] Fixed degree
 
