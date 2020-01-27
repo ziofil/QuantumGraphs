@@ -103,7 +103,7 @@ class QGraphList:
         if filename[-4:] != '.npy':
             raise ValueError('expected fileype: .npy')
         self.filename = filename
-        self.list = np.load(filename, allow_pickle=True)
+        self.list = list(np.load(filename, allow_pickle=True))
 
     def select(self, property:str, values: list):
         """
