@@ -1,3 +1,6 @@
+v0.1.6
+Fixed call to draw_kamada_kawai
+
 v0.1.5
 importing from module
 
