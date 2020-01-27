@@ -159,33 +159,16 @@ class QGraph:
 
         Arguments:
             figsize (int,int): the size of the figure
-            **kwargs: keyword arguments that we wish to pass to `nx.draw_kamada_kawai`
+            **kwargs: keyword arguments that we wish to pass to `draw_kamada_kawai()`
         """
         if 'ax' not in kwargs:
             f = plt.figure(figsize=figsize)
             ax = f.add_subplot(111)
             ax.set_aspect('equal')
             kwargs['ax'] = ax
-        nx.draw_kamada_kawai(self.graph, **kwargs)
+        nx.drawing.nx_pylab.draw_kamada_kawai(self.graph, **kwargs)
 
         if filename:
             f.savefig(filename, bbox_inches='tight')
             print(f'saved figure as {Path().absolute()}/'+filename)
-        
-    # def export(self, filename: str, **kwargs):
-    #     """
-    #     Exports the figure of the graph drawn with networkx.
-
-    #     Arguments:
-    #         filename (string): the desired filename, including extension (recommended: pdf)
-    #         **kwargs: keyword arguments that we wish to pass to `nx.draw_kamada_kawai`
-    #     """
-    #     if 'figsize' not in kwargs:
-    #         kwargs['figsize']=(5,5)
-
-    #     f = plt.figure(figsize=kwargs['figsize'])
-    #     ax = f.add_subplot(111)
-    #     ax.set_aspect('equal')
-    #     self.draw(ax=ax, **kwargs)
-    #     f.savefig(filename, bbox_inches='tight')
         
