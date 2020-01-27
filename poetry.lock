@@ -198,11 +198,24 @@ category = "main"
 description = "Python package for creating and manipulating graphs and networks"
 name = "networkx"
 optional = false
-python-versions = "*"
-version = "1.11"
+python-versions = ">=3.5"
+version = "2.4"
 
 [package.dependencies]
-decorator = ">=3.4.0"
+decorator = ">=4.3.0"
+
+[package.extras]
+all = ["numpy", "scipy", "pandas", "matplotlib", "pygraphviz", "pydot", "pyyaml", "gdal", "lxml", "pytest"]
+gdal = ["gdal"]
+lxml = ["lxml"]
+matplotlib = ["matplotlib"]
+numpy = ["numpy"]
+pandas = ["pandas"]
+pydot = ["pydot"]
+pygraphviz = ["pygraphviz"]
+pytest = ["pytest"]
+pyyaml = ["pyyaml"]
+scipy = ["scipy"]
 
 [[package]]
 category = "main"
@@ -338,7 +351,7 @@ description = "Library for building powerful interactive command lines in Python
 name = "prompt-toolkit"
 optional = false
 python-versions = ">=3.6"
-version = "3.0.2"
+version = "3.0.3"
 
 [package.dependencies]
 wcwidth = "*"
@@ -503,7 +516,7 @@ docs = ["sphinx", "jaraco.packaging (>=3.2)", "rst.linker (>=1.9)"]
 testing = ["jaraco.itertools"]
 
 [metadata]
-content-hash = "ad6d96d71db469cfcaeff65d925a09bb9123a5af113072292511090503d1e7e7"
+content-hash = "3be608d76c93b4cfceba3fd2810bdd0aed722f2165041dfa956d3ad18b978f62"
 python-versions = "^3.7"
 
 [metadata.files]
@@ -618,11 +631,8 @@ multiprocess = [
     {file = "multiprocess-0.70.9.tar.gz", hash = "sha256:9fd5bd990132da77e73dec6e9613408602a4612e1d73caf2e2b813d2b61508e5"},
 ]
 networkx = [
-    {file = "networkx-1.11-py2.7.egg", hash = "sha256:3fbc044a40bc847ae28b65850b759f3d6c697ee7ff459a02dc8f8bc4d849dc7e"},
-    {file = "networkx-1.11-py2.py3-none-any.whl", hash = "sha256:1b229b54fe9ccb009cee4de02a88552191497a542a7d5d34adab216b9f15c1ff"},
-    {file = "networkx-1.11-py3.4.egg", hash = "sha256:38e6bd32c0a2ad26439489d9b51e2684c01f352b536aaabbe499a3ad8c89f52b"},
-    {file = "networkx-1.11.tar.gz", hash = "sha256:0d0e70e10dfb47601cbb3425a00e03e2a2e97477be6f80638fef91d54dd1e4b8"},
-    {file = "networkx-1.11.zip", hash = "sha256:b3e0144d5fe6b7479b694e1b598a5545a38f3fc6f1e3c09173eb30f0c7a5770e"},
+    {file = "networkx-2.4-py3-none-any.whl", hash = "sha256:cdfbf698749a5014bf2ed9db4a07a5295df1d3a53bf80bf3cbd61edf9df05fa1"},
+    {file = "networkx-2.4.tar.gz", hash = "sha256:f8f4ff0b6f96e4f9b16af6b84622597b5334bf9cae8cf9b2e42e7985d5c95c64"},
 ]
 numpy = [
     {file = "numpy-1.18.1-cp35-cp35m-macosx_10_6_intel.whl", hash = "sha256:20b26aaa5b3da029942cdcce719b363dbe58696ad182aff0e5dcb1687ec946dc"},
@@ -701,8 +711,8 @@ ppft = [
     {file = "ppft-1.6.6.1.tar.gz", hash = "sha256:9e2173042edd5cc9c7bee0d7731873f17fcdce0e42e4b7ab68857d0de7b631fc"},
 ]
 prompt-toolkit = [
-    {file = "prompt_toolkit-3.0.2-py3-none-any.whl", hash = "sha256:0278d2f51b5ceba6ea8da39f76d15684e84c996b325475f6e5720edc584326a7"},
-    {file = "prompt_toolkit-3.0.2.tar.gz", hash = "sha256:63daee79aa8366c8f1c637f1a4876b890da5fc92a19ebd2f7080ebacb901e990"},
+    {file = "prompt_toolkit-3.0.3-py3-none-any.whl", hash = "sha256:c93e53af97f630f12f5f62a3274e79527936ed466f038953dfa379d4941f651a"},
+    {file = "prompt_toolkit-3.0.3.tar.gz", hash = "sha256:a402e9bf468b63314e37460b68ba68243d55b2f8c4d0192f85a019af3945050e"},
 ]
 ptyprocess = [
     {file = "ptyprocess-0.6.0-py2.py3-none-any.whl", hash = "sha256:d7cc528d76e76342423ca640335bd3633420dc1366f258cb31d05e865ef5ca1f"},
