@@ -1,5 +1,8 @@
+v0.1.8
+[bugfix] Fixed degree
+
 v0.1.7
-[bugfix] .degree() returns a dict in networkx 2.4
+[bugfix] .degree() returns a DegreeView
 
 v0.1.6
 [bugfix] Fixed call to draw_kamada_kawai
