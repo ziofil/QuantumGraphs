@@ -92,7 +92,7 @@ class QGraph:
     @property
     def degree_distribution(self):
         if not self.degree_distribution_:
-            degrees = sorted([d for n, d in self.graph.degree().items()])
+            degrees = sorted([d[1] for d in self.graph.degree()], reverse=True)
             counter = defaultdict(int)
             for d in degrees:
                 counter[d] += 1
