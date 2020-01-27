@@ -1,11 +1,20 @@
 # Introduction
-This package is for growing random graphs and trees by using continuous quantum walks.
-One or more quantum walkers explore a graph and at random times they collapse on its nodes, where a new node is attached. By alternatning evolution and collapse and by controlling the average exploration time, graphs and trees with various characteristics can be grown.
+This package is for growing random graphs and trees by using continuous quantum walks:
 
-# Usage
-For now this is not a package installable through `pip`. Just clone the repository to a folder, from which you can open a jupyter notebook and import it:
+1. One or more quantum walkers evolve on a graph, and at random times their wave function collapses on its nodes.
+2. A new node is attached to all the nodes where a walker collapsed.
+
+By alternatning evolution and collapse and by controlling the average exploration time we can grow graphs and trees with various characteristics.
+
+# Installation
+Install via `pip`:
+```bash
+pip install quantumgraphs
+```
+
+Import like so:
 ```python
-from QuantumGraphs import QGraphList, QGraph
+from quantumgraphs import QGraph, QGraphList
 ```
 
 # The QGraph class
@@ -32,7 +41,7 @@ G.draw(node_size=30)
 
 If we also wish to export the diagram, we can pass a `filename` argument:
 ```python
-G.draw(node_size=30, filename = 'example_graph.jpg')
+G.draw(node_size=30, width=0.5, filename = 'example_graph.jpg')
 ```
 
 # The QGraphList class
@@ -44,33 +53,33 @@ The `repr` of a `QGraphList` object returns a handy Pandas DataFrame with a summ
 ```python
 GL = QGraphList()
 ```
-We populate it by growing random graphs according to the desired specs. This is automatically done in parallel, with a visual bar that indicates the status of the computation:
+We populate it by growing random graphs according to the desired specs. This is automatically done in parallel via [p-tqdm](https://github.com/swansonk14/p_tqdm), with a visual bar that indicates the status of the computation:
 ```python
 specs = [{'walkers':w, 'nodes':n, 'exploration':t} for t in [0.1,0.5,1.0] for w in [1,2,3] for n in [100,200]]
-GL.grow_random_graphs(specs*3) # 3 copies of each spec
+GL.grow_random_graphs(specs*3) # 3 copies of each spec for statistical experiments
 ```
 We can populate the database at any time, any number of times. Each new graph is treated as a distinct object.
-We can observe some properties of the graphs by invoking `GL.dataframe`.
+We can observe a few properties of the graphs by invoking `GL.dataframe`.
 
 ## Visualizations
-The properties of the graphs can be plotted via an internal use of Seaborn:
+The properties of the graphs can be visualized as follows (using [Seaborn](https://seaborn.pydata.org/) internally):
 ```python
 ax = GL.lineplot(x='exploration', y='diameter', hue='walkers', style='nodes')
 ax.set_xscale('log')
 ```
 ![img](/plots/diameter.jpg "Diameter plot")
 
-Notice that the `lineplot` method returns a matplotlib axis instance to allow for further customization and export:
+Notice that the `lineplot` method returns a matplotlib [Axes](https://matplotlib.org/api/axes_api.html#the-axes-class) instance to allow for further customization and export:
 
 ```python
 fig = ax.get_figure()
-fig.savefig("diameter.jpg")
+fig.savefig("diameter.pdf", bbox_inches='tight')
 ```
 
 ## Utilities
-`QGraphList` objects can be added to merge their internal list (e.g. `G = G1 + G2`), and if possible, their dataframes.
 
-We can also select and/or exclude parts of the collection:
+### Filtering elements
+We can select and/or exclude parts of the collection:
 ```python
 GL.select('walkers', [1,2])
 ```
@@ -80,11 +89,14 @@ As the `select` and `exclude` methods return new instances of `QGraphList`, we c
 GL.exclude('walkers', [1]).select('nodes', [200]).lineplot(x='exploration', y='clustering', hue='walkers')
 ```
 
+### QGraphList is an iterable sequence:
 `QGraphList` objects are iterable:
 ```python
-[g.nodes for g in G]
+[g.nodes for g in GL]
 ```
+and the elements can be accessed by index (e.g. `graph = GL[3]`).
 
+### Merging QGraphList instances
 `QGraphList` objects can be merged simply by summing them:
 ```python
 G1 = QGraphList()
@@ -95,7 +107,7 @@ GL = G1 + G2
 ```
 
 ## Saving and loading
-As computations might become expensive, we can save and load a `QGraphList` object:
+As computations with large graphs might become expensive, we can save and load a `QGraphList` object:
 ```python
 GL.save('large_database.npy')
 
