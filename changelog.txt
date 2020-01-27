@@ -1,3 +1,6 @@
+v0.1.5
+importing from module
+
 v0.1.4
 Did not work, refixed __init__.py
 
