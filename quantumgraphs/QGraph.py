@@ -24,10 +24,10 @@ class QGraph:
         self.exploration = exploration
         self.walkers = walkers
         self.wave_functions = np.ones([self.walkers, 1], dtype=np.complex64)
-        self.adjacency_matrix_ = sp.sparse.coo_matrix(([1], ([0], [0])))
+        self.adjacency_matrix_ = sp.sparse.coo_matrix(([0], ([0], [0])))
         
         # coo_matrix data for sparse adjacency matrix
-        self.data = [1]
+        self.data = [0]
         self.row = [0]
         self.col = [0]
 
