@@ -1,4 +1,4 @@
-__version__ = '0.1.6'
+__version__ = '0.1.7'
 
 from quantumgraphs.QGraph import QGraph
 from quantumgraphs.QGraphList import QGraphList

@@ -1,17 +1,20 @@
+v0.1.7
+[bugfix] .degree() returns a dict in networkx 2.4
+
 v0.1.6
-Fixed call to draw_kamada_kawai
+[bugfix] Fixed call to draw_kamada_kawai
 
 v0.1.5
-importing from module
+[bugfix] importing from module
 
 v0.1.4
-Did not work, refixed __init__.py
+[bugfix] Did not work, refixed __init__.py
 
 v0.1.3
-Did not work, refixed __init__.py
+[bugfix] Did not work, refixed __init__.py
 
 v0.1.2
-Fixed __init__.py
+[bugfix] Fixed __init__.py
 
 v0.1.1
 Included __all__ in package for better import statement
